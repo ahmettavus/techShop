@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>home</title>
+
+  <!-- font awesome cdn link  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- swiper css link  -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+  <!-- cusom css file link  -->
+  <!--    <link rel="stylesheet" href="css/style.css">-->
+
+  <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+</head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap">
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-decoration: none;
+      outline: none;
+      border: none;
+      text-transform: capitalize;
+      transition: all .2s linear;
+    }
+
+    html {
+      overflow-x: hidden;
+      font-size: 62.5%;
+    }
+
+    body {
+      background: #eee;
+    }
+
+    section {
+      padding: 3rem 2rem;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 3.5rem;
+      color: #333;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      display: inline-block;
+      border-radius: .5rem;
+      padding: 1rem 3rem;
+      font-size: 1.7rem;
+      color: #fff;
+      cursor: pointer;
+      background: #0984e3;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: .5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: .5rem;
+      font-size: 1.7rem;
+      border-radius: .5rem;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+
+  <section class="flex">
+
+    <a th:href="@{/}" class="logo"> <i class="fas fa-store"></i> Tech-Shop </a>
+
+    <form action="" class="search-form">
+      <input type="search" id="search-box" placeholder="search here...">
+      <label for="search-box" class="fas fa-search"></label>
+    </form>
+
+    <a class="icons">
+      <a th:href="@{/ui/category}" class="fas fa-bars"></a>
+      <div id="search-btn" class="fas fa-search"></div>
+      <a th:href="@{/login}" class="fas fa-user"></a>
+      <a href="#" class="fas fa-heart"></a>
+      <a th:href="@{/api/carts}" ref="" class="fas fa-shopping-cart"></a>
+    </a>
+
+  </section>
+
+</header>
+
+<section>
+  <h2 class="heading">Checkout</h2>
+  <form>
+    <div class="form-group">
+      <label for="cart">Cart:</label>
+      <input type="text" id="cart" name="cart" placeholder="Enter cart information" required>
+    </div>
+
+    <div class="form-group">
+      <label for="shipping-name">Shipping Name:</label>
+      <input type="text" id="shipping-name" name="shipping-name" placeholder="Enter your name" required>
+    </div>
+    <div class="form-group">
+      <label for="shipping-address">Shipping Address:</label>
+      <input type="text" id="shipping-address" name="shipping-address" placeholder="Enter your address" required>
+    </div>
+    <div class="form-group">
+      <label for="shipping-city">Shipping City:</label>
+      <input type="text" id="shipping-city" name="shipping-city" placeholder="Enter your city" required>
+    </div>
+    <div class="form-group">
+      <label for="shipping-zip">Shipping ZIP Code:</label>
+      <input type="text" id="shipping-zip" name="shipping-zip" placeholder="Enter your ZIP code" required>
+    </div>
+
+    <button type="submit" class="btn">Place Order</button>
+  </form>
+</section>
+</body>
+</html>

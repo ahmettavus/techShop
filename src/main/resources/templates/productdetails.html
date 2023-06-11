@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- swiper css link  -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+    <!-- cusom css file link  -->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+
+</head>
+<body>
+
+<!-- header section starts  -->
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}" class="logo"> <i class="fas fa-store"></i> Tech-Shop </a>
+
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+
+        <a class="links">
+            <a th:href="@{/ui/category}"> Categories </a>
+            <div id="search-btn" class="fas fa-search"></div>
+            <a th:href="@{/login}" class="fas fa-user"></a>
+            <a th:href="@{/api/carts}"> Cart </a>
+        </a>
+
+
+
+    </section>
+
+</header>
+
+
+<!-- header section ends -->
+
+<!-- side-bar section starts -->
+
+<div class="side-bar">
+
+    <div id="close-side-bar" class="fas fa-times"></div>
+
+    <div class="user">
+        <img src="../static/images/user-img.png" alt="">
+        <h3>Ahmet Tavus</h3>
+        <a href="#">log out</a>
+    </div>
+
+    <nav class="navbar">
+        <a th:href="@{/}"> <i class="fas fa-angle-right"></i> home </a>
+        <a href="about.html"> <i class="fas fa-angle-right"></i> about </a>
+        <a href="categories.html"> <i class="fas fa-angle-right"></i> product </a>
+        <a href="contact.html"> <i class="fas fa-angle-right"></i> contact </a>
+        <a href="login.html"> <i class="fas fa-angle-right"></i> login </a>
+        <a href="register.html"> <i class="fas fa-angle-right"></i> register </a>
+        <a href="cart.html"> <i class="fas fa-angle-right"></i> cart </a>
+    </nav>
+
+</div>
+
+<section class="products">
+
+    <h1 class="heading"><span>Products</span></h1>
+
+    <div class="box-container">
+
+
+        <div class="box">
+
+            <div class="content">
+                <a th:href="@{/ui/product/{variable}(variable=${productId})}" class="box">
+
+                    <h3 th:text="${products.category.name}"></h3>
+
+<!--                    <h1><font color="red"> Product Name</font></h1>-->
+                    <h2 th:text="${products.name}" th:color="red">smartphone</h2>
+                    <h2 th:text= "${products.description}">smartphone</h2>
+
+
+                    <div class="image">
+                        <img th:src="@{'/images/' + ${products.id} + '.jpg'}" class="main-img" alt="">
+                        <img th:src="@{'/images/' + ${products.id} + '.jpg'}" class="hover-img" alt="">
+
+                        <div th:utext="${products.price} + '$' " class="price">$249.99 <span>$399.99</span></div>
+                    </div>
+                </a>
+            </div>
+
+
+
+                <section class="product">
+                    <!-- ... -->
+
+                        <!-- ... -->
+                        <div class="cart-total">
+
+                            <form th:action="@{/ui/product/save/{productId}(productId=${products.id})}" method="post" th:object="${products}">
+
+<!--                                <label for="quantity" style="margin-right: 1em; font-weight: bold;">Quantity:</label>-->
+                                <div th:utext="${products.price} + '$' " class="price">$249.99 <span>$399.99</span></div>
+                                <div th:utext="${products.category.name} + '$' " class="price">$249.99 <span>$399.99</span></div>
+<!--                                <input type="number" id="quantity" name="quantity" min="1" max="10" style="padding: 5px;">-->
+                                <button type="submit" class="btn addToCartBtn" data-product-id="${products.id}" style="background-color: #4CAF50; color: white; border: none; padding: 10px; margin-left: 10px; cursor: pointer;">Add To Cart</button>
+                            </form>
+                        </div>
+
+                </section>
+
+
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script>
+    $(document).ready(function() {
+        $(".addToCartBtn").click(function(event) {
+            event.preventDefault(); // Sayfanın otomatik yenilenmesini engeller
+
+            var productId = $(this).data("product-id");
+            var quantity = $("#quantity").val();
+
+            var cartDto = {
+                product: {
+                    id: productId
+                },
+                quantity: quantity
+            };
+
+            $.ajax({
+                url: "/cart",
+                type: "POST",
+                data: JSON.stringify(cartDto),
+                contentType: "application/json; charset=utf-8",
+                success: function(response) {
+                    alert("Product added to cart successfully!");
+                },
+                error: function(xhr, status, error) {
+                    alert("Error occurred while adding the product to cart.");
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

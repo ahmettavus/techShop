@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cart</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- swiper css link  -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+    <!-- cusom css file link  -->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<!-- header section starts  -->
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}"> <i class="fas fa-angle-right"></i> home </a>
+
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+
+        <a class="links">
+            <a th:href="@{/ui/category}"> Categories </a>
+            <div id="search-btn" class="fas fa-search"></div>
+            <a th:href="@{/login}" class="fas fa-user"></a>
+            <a th:href="@{/api/carts}"> Cart </a>
+        </a>
+    </section>
+
+</header>
+
+<!-- header section ends -->
+
+<!-- side-bar section starts -->
+
+<div class="side-bar">
+
+    <div id="close-side-bar" class="fas fa-times"></div>
+
+    <div class="user">
+        <img th:src="@{/images/user-img.png}" alt="">
+        <a href="#">log out</a>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html"> <i class="fas fa-angle-right"></i> home </a>
+        <a href="about.html"> <i class="fas fa-angle-right"></i> about </a>
+        <a href="categories.html"> <i class="fas fa-angle-right"></i> productDtos </a>
+        <a href="contact.html"> <i class="fas fa-angle-right"></i> contact </a>
+        <a href="login.html"> <i class="fas fa-angle-right"></i> login </a>
+        <a href="register.html"> <i class="fas fa-angle-right"></i> register </a>
+        <a href="cart.html"> <i class="fas fa-angle-right"></i> cart </a>
+    </nav>
+
+</div>
+
+<!-- side-bar section ends -->
+
+<!-- shopping cart section starts  -->
+
+<section class="shopping-cart">
+
+
+    <h1 class="heading">your <span>product</span></h1>
+
+    <div class="box-container">
+        <tr th:each="cart : ${carts}">
+            <div class="box">
+                <i class="fas fa-times"></i>
+
+
+                <img th:src="@{'/images/' + ${cart.product.id} + '.jpg'}" class="main-img" alt="">
+<!--                <img th:src="@{'/images/' + ${cart.product.id} + '.jpg'}" class="hover-img" alt="">-->
+
+                <div class="content">
+                    <h3 th:text="${cart.name}">smartphone</h3>
+                    <p th:text="'Product Name: ' + ${cart.product.name}">Product Name</p>
+                    <p th:text="'Product Price : ' + ${cart.product.price + '$'}">1</p>
+                    <!--                    <p th:text="${cart.quantity}">1</p>-->
+                    <!--                    <p th:text="'Category Name : ' + ${cart.product.category.name}">1</p>-->
+                    <!--                    <label for="quantity" style="margin-right: 1em; font-weight: bold;">Quantity:</label>-->
+                    <!--                    <input type="number" id="quantity" min="1" max="10" th:value="${cart.quantity}" th:field="*{carts[__${cartStat.index}__].quantity}" />-->
+
+                    <form th:action="@{/api/carts/update-cart}" method="post">
+                        <input type="hidden" name="id" th:value="${cart.id}">
+                        <td class="quantity-box">
+                            <input type="number" size="4" th:value="${cart.quantity}"
+                                   name="quantity" min="0" step="1"
+                                   class="c-input-text qty text"></td>
+                        <button type="submit" name="action" value="update" title="Update"
+                                class="btn btn-primary">Update
+                        </button>
+                    </form>
+
+                    <form th:action="@{/api/carts/delete-cart}" method="post"
+                          onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="id" th:value="${cart.id}">
+                        <button type="submit" name="action" value="delete" title="Delete" class="btn btn-danger"
+                                onclick="disableButton(this);">Delete
+                        </button>
+                    </form>
+                    <p th:text="${cart.totalPrice}">$249.99</p>
+                </div>
+
+
+            </div>
+        </tr>
+
+
+    </div>
+
+    <div class="cart-total">
+        <h3> subtotal : <span> <td th:text="${totalCartPrice}">$249.99</td></span></h3>
+        <form th:action="@{/api/carts/checkout}" method="get"
+        onsubmit="return confirm('Do you want to process to checkout?');">
+            <input type="hidden" name="id" th:value="${carts}">
+            <button type="submit" name="action" value="delete" title="Delete" class="btn btn-danger"
+                    onclick="disableButton(this);">Checkout
+            </button>
+        </form>
+        <!--        <a th:href="@{/api/carts/checkout}" class="btn">proceed to checkout</a>-->
+    </div>
+
+</section>
+
+<!-- shopping cart section ends -->
+
+
+<!-- footer section starts  -->
+
+<footer class="footer">
+
+    <section class="quick-links">
+
+        <a th:href="@{/}" class="logo"> <i class="fas fa-store"></i> Tech-Shop </a>
+
+        <div class="links">
+            <a th:href="@{/}"> home </a>
+            <a th:href="@{/}"> about </a>
+            <a th:href="@{/ui/category}"> product </a>
+            <a th:href="@{/login}"> login </a>
+            <a th:href="@{/register}"> register </a>
+            <a th:href="@{/api/carts}"> cart </a>
+        </div>
+        <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+        </div>
+
+    </section>
+
+    <section class="credit">
+
+        <img src="../static/images/card_img.png" alt="">
+
+    </section>
+
+</footer>
+
+<!-- footer section ends -->
+
+
+<!-- swiper js link      -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="../static/js/script.js"></script>
+
+</body>
+</html>
